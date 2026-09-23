@@ -16,7 +16,12 @@ pipeline {
         stage ('Security Scan'){
             agent { docker { image 'node:16'; args '-u root:root' } }
             steps{
-                sh 'npm audit --audit-level=high'
+                sh 'npm audit --audit-level=high | tee npm-audit-report.txt'
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: 'npm-audit-report.txt',allowEmptyArchive:true
+                }
             }
         }
 
