@@ -2,19 +2,19 @@ pipeline {
     agent none
     stages {
         stage('Install Dependencies'){
-            agent { docker { image 'node:16'; args '-u root:root' } }
+            agent { docker { image 'node:16'; args '-u 1000:1000' } }
             steps {
                 sh 'npm install'
             }
         }
         stage ('Run Unit Test'){
-            agent { docker { image 'node:16'; args '-u root:root' } }
+            agent { docker { image 'node:16'; args '-u 1000:1000' } }
             steps {
                 sh 'npm test'
             }
         }
         stage ('Security Scan'){
-            agent { docker { image 'node:16'; args '-u root:root' } }
+            agent { docker { image 'node:16'; args '-u 1000:1000' } }
             steps{
                 sh 'npm audit --audit-level=high | tee npm-audit-report.txt'
             }
